@@ -28,12 +28,29 @@ namespace Ines_German.API.Controllers
 
             if (word == null)
             {
-                return BadRequest("Word couldn't be created.");
+                return BadRequest(new 
+                {
+                    success = false,
+                    message = "Can't create word",
+                    duplicate = true
+                });
             }
 
             return Ok(new {
                 success = true,
                 word = word
+            });
+        }
+
+        [HttpGet("get/guessing")]
+        public async Task<IActionResult> GetWordAction()
+        {
+            var wordList = await this.wordRepo.GetWordsForGuessing();
+
+            return Ok(new
+            {
+                success = true,
+                wordList = wordList
             });
         }
     }

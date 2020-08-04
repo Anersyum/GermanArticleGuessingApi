@@ -1,22 +1,35 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ines_German.API.Dtos;
 using Ines_German.API.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace Ines_German.API.Data
 {
     public class WordRepository : IWordRepository
     {
         private readonly DataContext context;
-        public WordRepository(DataContext context)
+        private readonly IConfiguration config;
+        public WordRepository(DataContext context, IConfiguration config)
         {
+            this.config = config;
             this.context = context;
-
         }
+        
         public async Task<WordModel> CreateWord(WordDto wordToCreate)
         {
-            WordModel word = new WordModel() {
+            WordModel word = await this.context.Words.Where(x => x.Word == wordToCreate.Word)
+                                    .FirstOrDefaultAsync();
+            
+            if (word != null)
+            {
+                return null;
+            }
+
+            new WordModel()
+            {
                 Word = wordToCreate.Word,
                 Article = wordToCreate.Article
             };
@@ -27,9 +40,11 @@ namespace Ines_German.API.Data
             return word;
         }
 
-        public async Task<WordModel> GetWord(int id)
+        public async Task<IEnumerable<WordModel>> GetWordsForGuessing()
         {
-            return await this.context.Words.FirstOrDefaultAsync(x => x.Id == id);
+            string queryString = "SELECT * FROM Words ORDER BY RANDOM() LIMIT 10;";
+
+            return await this.context.Words.FromSqlRaw(queryString).ToListAsync();
         }
     }
 }
