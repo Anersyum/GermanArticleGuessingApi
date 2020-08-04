@@ -65,5 +65,16 @@ namespace Ines_German.API.Controllers
                 wordsList = wordsList
             });
         }
+
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteWordAction(WordDto wordDto)
+        {
+            await this.wordRepo.DeleteWord(wordDto.Id);
+
+            return Ok(new
+            {
+                success = true
+            });
+        }
     }
 }

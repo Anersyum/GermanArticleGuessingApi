@@ -10,5 +10,6 @@ namespace Ines_German.API.Data
         Task<WordModel> CreateWord(WordDto wordToCreate);
         Task<IEnumerable<WordModel>> GetWordsForGuessing();
         Task<IEnumerable<WordModel>> GetAllWords();
+        Task<bool> DeleteWord(int id);
     }
 }

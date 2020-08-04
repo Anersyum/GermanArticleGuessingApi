@@ -51,5 +51,15 @@ namespace Ines_German.API.Data
         {
             return await this.context.Words.ToListAsync();
         }
+
+        public async Task<bool> DeleteWord(int id)
+        {
+            var word = await this.context.Words.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            this.context.Remove(word);
+            await this.context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
