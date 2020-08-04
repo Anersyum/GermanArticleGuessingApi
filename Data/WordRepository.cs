@@ -17,7 +17,7 @@ namespace Ines_German.API.Data
             this.config = config;
             this.context = context;
         }
-        
+
         public async Task<WordModel> CreateWord(WordDto wordToCreate)
         {
             WordModel word = await this.context.Words.Where(x => x.Word == wordToCreate.Word)
@@ -28,7 +28,7 @@ namespace Ines_German.API.Data
                 return null;
             }
 
-            new WordModel()
+            word = new WordModel()
             {
                 Word = wordToCreate.Word,
                 Article = wordToCreate.Article
@@ -45,6 +45,11 @@ namespace Ines_German.API.Data
             string queryString = "SELECT * FROM Words ORDER BY RANDOM() LIMIT 10;";
 
             return await this.context.Words.FromSqlRaw(queryString).ToListAsync();
+        }
+
+        public async Task<IEnumerable<WordModel>> GetAllWords()
+        {
+            return await this.context.Words.ToListAsync();
         }
     }
 }

@@ -53,5 +53,17 @@ namespace Ines_German.API.Controllers
                 wordList = wordList
             });
         }
+
+        [HttpGet("get")]
+        public async Task<IActionResult> GetAllWordsAction()
+        {
+            var wordsList = await this.wordRepo.GetAllWords();
+
+            return Ok(new 
+            {
+                success = true,
+                wordsList = wordsList
+            });
+        }
     }
 }
