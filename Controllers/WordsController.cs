@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Ines_German.API.Data;
 using Ines_German.API.Dtos;
 using Ines_German.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Ines_German.API.Controllers
 {
@@ -68,6 +64,7 @@ namespace Ines_German.API.Controllers
             });
         }
 
+        [Authorize]
         [HttpPost("delete")]
         public async Task<IActionResult> DeleteWordAction(WordDto wordDto)
         {
