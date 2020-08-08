@@ -8,5 +8,6 @@ namespace Ines_German.API.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) {}
 
         public DbSet<WordModel> Words { get; set; }
+        public DbSet<UserModel> Users { get; set; }
     }
 }
