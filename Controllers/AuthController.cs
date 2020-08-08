@@ -28,7 +28,11 @@ namespace Ines_German.API.Controllers
 
             if (user == null)
             {
-                return BadRequest("Wrong password!");
+                return Unauthorized(new
+                {
+                    success = false,
+                    message = "Wrong password!"
+                });
             }
 
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
